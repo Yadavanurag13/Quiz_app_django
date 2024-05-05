@@ -1,12 +1,20 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from .models import *
 import random
 # Create your views here.
 
 def home(request):
-    return HttpResponse("Hello.. Anurag this side")
 
+    context = {'categories': Category.objects.all()}
+
+    if(request.GET.get('category')):
+        return redirect(f"/quiz/?category={request.GET.get('category')}")
+    return render(request, 'home.html', context)
+
+
+def quiz(request):
+    return render(request, 'quiz.html')
 
 
 # {
