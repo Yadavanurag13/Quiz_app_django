@@ -25,7 +25,15 @@ def quiz(request):
 # }
 def get_quiz(request):
     try:
-        Question_objs = list(Question.objects.all())
+        Question_objs = (Question.objects.all())
+
+        #if we want to access the data for foreign key we have to use double __
+        if request.GET.get('category'):
+            Question_objs = Question.objects.filter(category__category_name__icontains=request.GET.get('category'))
+
+        #if any category is not given directly return it in form of list 
+        Question_objs = list(Question_objs)
+
         data = []
         random.shuffle(Question_objs)
 
